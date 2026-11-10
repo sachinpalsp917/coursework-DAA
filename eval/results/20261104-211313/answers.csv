@@ -1,0 +1,501 @@
+id,category,answerable,mode,question,expected_answer,answer,abstained,abstention_correct,n_sources,n_cited,invalid_citations,uncited,cited_relevant_share,sources,seconds,prompt_tokens,answer_tokens,correctness,faithfulness,citation_accuracy,grader_notes
+V1,version_specific,yes,rag,What are callbacks in scikit-learn and which built-in callbacks are provided?,"Experimental feature added in 1.9: objects registered on an estimator with set_callbacks, called at the start and end of key steps during fit. Built-in callbacks: ProgressBar and ScoringMonitor.","Callbacks in scikit-learn are objects that can be registered on estimators to insert custom logic, such as monitoring progress or metrics, without modifying the underlying learning algorithm [4]. They are invoked at specific steps of the fitting process [4]. Currently, the built-in callbacks provided are the ProgressBar, to display progress bars [1][3], and the ScoringMonitor, to compute and log scoring metrics [1][3].",False,True,5,3,0,False,1.0,"[1] callbacks.html :: 7. Callbacks > 7.4. Scikit-learn’s built-in callbacks
+[2] developers/callbacks.html :: Developing with the callback API
+[3] auto_examples/release_highlights/plot_release_highlights_1_9_0.html :: Release Highlights for scikit-learn 1.9 > Callbacks
+[4] callbacks.html :: 7. Callbacks
+[5] developers/callback_support.html :: Implementing callback support in estimators",9.3,1040,87,2,2,2,Correct; omits that the feature is experimental/new in 1.9.
+V1,version_specific,yes,closed_book,What are callbacks in scikit-learn and which built-in callbacks are provided?,"Experimental feature added in 1.9: objects registered on an estimator with set_callbacks, called at the start and end of key steps during fit. Built-in callbacks: ProgressBar and ScoringMonitor.","Callbacks in scikit-learn are functions that are called at specific points during the training process of an estimator. They can be used to monitor the training process, perform custom actions, or even modify the training process itself.
+
+Scikit-learn provides several built-in callbacks:
+
+1. `EarlyStopping`: Stops training when the estimator's score on the validation set stops improving.
+2. `ReduceLROnPlateau`: Reduces the learning rate when the estimator's score on the validation set stops improving.
+3. `ModelCheckpoint`: Saves the best model during training based on the estimator's score on the validation set.
+
+These callbacks can be used to improve the training process and prevent overfitting.",False,True,0,0,0,False,,,5.75,91,141,0,,,"Invents Keras-style callbacks (EarlyStopping, ReduceLROnPlateau, ModelCheckpoint)."
+V2,version_specific,yes,rag,Which scikit-learn function computes a binary classification metric across all possible decision thresholds?,"sklearn.metrics.metric_at_thresholds (added in 1.9); it takes y_true, y_score and a metric function and returns the metric values and the thresholds.","The scikit-learn function that computes a binary classification metric across all possible decision thresholds is `metric_at_thresholds` [1][2]. This function takes in the true labels, predicted scores, a metric function, and optional parameters, and returns the metric values and corresponding thresholds [2]. It is particularly useful for visualizing metric values across thresholds when tuning the decision threshold [5].",False,True,5,3,0,False,0.6666666666666666,"[1] auto_examples/release_highlights/plot_release_highlights_1_9_0.html :: Release Highlights for scikit-learn 1.9 > Computing metrics across thresholds
+[2] modules/generated/sklearn.metrics.metric_at_thresholds.html :: metric_at_thresholds
+[3] auto_examples/release_highlights/plot_release_highlights_1_5_0.html :: Release Highlights for scikit-learn 1.5 > TunedThresholdClassifierCV: Tuning the decision threshold of a binary classifier
+[4] modules/model_evaluation.html :: 3.4. Metrics and scoring: quantifying the quality of predictions > 3.4.4. Classification metrics
+[5] modules/classification_threshold.html :: 3.3. Tuning the decision threshold for class prediction > 3.3.1. Post-tuning the decision threshold > 3.3.1.3. Visualizing thresholds",8.6,1239,79,2,2,2,
+V2,version_specific,yes,closed_book,Which scikit-learn function computes a binary classification metric across all possible decision thresholds?,"sklearn.metrics.metric_at_thresholds (added in 1.9); it takes y_true, y_score and a metric function and returns the metric values and the thresholds.","The `roc_auc_score` function in scikit-learn computes the Area Under the Receiver Operating Characteristic Curve (ROC AUC) metric, which is a binary classification metric that can be computed across all possible decision thresholds.",False,True,0,0,0,False,,,1.93,92,46,0,,,Says roc_auc_score.
+V3,version_specific,yes,rag,How can I make scikit-learn estimators output sparse arrays instead of sparse matrices?,"Set the configuration key sparse_interface=""sparray"" (added in 1.9), globally with sklearn.set_config or locally with sklearn.config_context. Sparse matrices remain the default.","To make scikit-learn estimators output sparse arrays instead of sparse matrices, you can use the ""sparse_interface"" configuration key. You can set it to ""sparray"" using the `sklearn.config_context` function, as shown in the example from [1]:
+
+```
+with sklearn.config_context(sparse_interface=""sparray""):
+    Xt = ohe.fit_transform(X)
+```
+
+This will allow the estimator to produce sparse arrays instead of the default sparse matrices. This is done to prepare for SciPy's migration from sparse matrices to sparse arrays.",False,True,5,1,0,False,1.0,"[1] auto_examples/release_highlights/plot_release_highlights_1_9_0.html :: Release Highlights for scikit-learn 1.9 > Sparse array configuration
+[2] auto_examples/release_highlights/plot_release_highlights_1_7_0.html :: Release Highlights for scikit-learn 1.7
+[3] whats_new/v1.8.html :: Version 1.8 > Version 1.8.0 > sklearn.utils
+[4] faq.html :: Frequently Asked Questions > Implementation decisions > Does scikit-learn work natively with various types of dataframes?
+[5] whats_new/v1.4.html :: Version 1.4 > Version 1.4.0 > Changelog > sklearn.utils",9.96,1238,113,2,2,2,"Gives config_context only, not set_config; uncited sentences are still supported by [1]."
+V3,version_specific,yes,closed_book,How can I make scikit-learn estimators output sparse arrays instead of sparse matrices?,"Set the configuration key sparse_interface=""sparray"" (added in 1.9), globally with sklearn.set_config or locally with sklearn.config_context. Sparse matrices remain the default.","You can use the `sparse_output=False` parameter when initializing the estimator. For example, for a `LogisticRegression` estimator:
+
+```python
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+X, y = load_iris(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+estimator = LogisticRegression(sparse_output=False)
+estimator.fit(X_train, y_train)
+```",False,True,0,0,0,False,,,5.06,93,119,0,,,Invents a sparse_output parameter on LogisticRegression.
+V4,version_specific,yes,rag,Which calibration method of CalibratedClassifierCV is best suited to multiclass problems and why?,"method=""temperature"" (temperature scaling, added in 1.8): it calibrates all classes with a single free parameter, whereas sigmoid and isotonic use a One-vs-Rest scheme with extra parameters per class.",Temperature scaling is particularly well suited for multiclass problems because it provides (better) calibrated probabilities with a single free parameter [1]. This is in contrast to all the other available calibration methods which use a “One-vs-Rest” scheme that adds more parameters for each class [1].,False,True,5,1,0,False,1.0,"[1] auto_examples/release_highlights/plot_release_highlights_1_8_0.html :: Release Highlights for scikit-learn 1.8 > Temperature scaling in CalibratedClassifierCV
+[2] modules/generated/sklearn.calibration.CalibratedClassifierCV.html :: CalibratedClassifierCV
+[3] modules/generated/sklearn.calibration.CalibratedClassifierCV.html :: CalibratedClassifierCV
+[4] whats_new/v0.24.html :: Version 0.24 > Version 0.24.0 > Changelog > sklearn.calibration
+[5] modules/calibration.html :: 1.16. Probability calibration > 1.16.3. Usage",8.86,1237,58,2,2,2,
+V4,version_specific,yes,closed_book,Which calibration method of CalibratedClassifierCV is best suited to multiclass problems and why?,"method=""temperature"" (temperature scaling, added in 1.8): it calibrates all classes with a single free parameter, whereas sigmoid and isotonic use a One-vs-Rest scheme with extra parameters per class.",The `sigmoid` calibration method is best suited for multiclass problems. This is because it is designed for problems with more than two classes and uses the sigmoid function to transform the probabilities into a probability distribution over the classes.,False,True,0,0,0,False,,,1.95,93,45,0,,,Says sigmoid.
+V5,version_specific,yes,rag,Should I still use the penalty parameter of LogisticRegression? What should I use instead?,"No: penalty was deprecated in 1.8 and will be removed in 1.10. Use l1_ratio and C instead: l1_ratio=0 for L2, l1_ratio=1 for L1, a value between 0 and 1 for elastic-net, and C=np.inf for no penalty.","You should not use the `penalty` parameter of `LogisticRegression` anymore. It was deprecated in version 1.8 and will be removed in version 1.10. Instead, use `l1_ratio` and `C` to specify the penalty type [1][2][3][4][5]. For example, `l1_ratio=0` for `penalty='l2'`, `l1_ratio=1` for `penalty='l1'`, and `l1_ratio` set to any float between 0 and 1 for `penalty='elasticnet'` [1][2][3][4][5].",False,True,5,5,0,False,0.2,"[1] auto_examples/ensemble/plot_voting_decision_regions.html :: Visualizing the probabilistic predictions of a VotingClassifier
+[2] modules/generated/sklearn.linear_model.LogisticRegression.html :: LogisticRegression
+[3] auto_examples/miscellaneous/plot_pipeline_display.html :: Displaying Pipelines > Displaying a Pipeline Chaining Multiple Preprocessing Steps & Classifier
+[4] auto_examples/release_highlights/plot_release_highlights_0_24_0.html :: Release Highlights for scikit-learn 0.24 > New self-training meta-estimator
+[5] auto_examples/compose/plot_column_transformer_mixed_types.html :: Column Transformer with Mixed Types",14.6,1976,138,2,2,1,Omits C=np.inf for no penalty. Over-cites [1]-[5]; [2] does not state the penalty mapping.
+V5,version_specific,yes,closed_book,Should I still use the penalty parameter of LogisticRegression? What should I use instead?,"No: penalty was deprecated in 1.8 and will be removed in 1.10. Use l1_ratio and C instead: l1_ratio=0 for L2, l1_ratio=1 for L1, a value between 0 and 1 for elastic-net, and C=np.inf for no penalty.","The `penalty` parameter of `LogisticRegression` is still used, but it's recommended to use `C` instead, which is the inverse of the regularization strength. So, you can use `C` instead of `penalty` to control the regularization.",False,True,0,0,0,False,,,2.44,92,56,0,,,Says penalty is still used; misses the 1.8 deprecation.
+V6,version_specific,yes,rag,How do I use an already-fitted model as a step in a pipeline without it being refitted?,"Wrap it in sklearn.frozen.FrozenEstimator (added in 1.6): fit does nothing, and fit_predict / fit_transform just call predict / transform.","To use an already-fitted model as a step in a pipeline without it being refitted, you can use the `named_steps` or `steps` attribute to inspect the estimators within the pipeline. This is because enabling caching triggers a clone of the transformers before fitting, and therefore the transformer instance given to the pipeline cannot be inspected directly [1][2][3]. 
+
+Here is an example of how to do this:
+
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+
+# Create a pipeline with a StandardScaler and a LogisticRegression
+pipe = Pipeline([
+    ('scaler', StandardScaler()),
+    ('logreg', LogisticRegression())
+])
+
+# Fit the pipeline to the data
+pipe.fit(X_train, y_train)
+
+# Use the named_steps attribute to inspect the estimators within the pipeline
+print(pipe.named_steps['logreg'].coef_)
+```
+
+Note that the `named_steps` attribute returns a dictionary where the keys are the names of the steps in the pipeline and the values are the corresponding estimators.",False,True,5,3,0,False,0.0,"[1] auto_examples/inspection/plot_linear_model_coefficient_interpretation.html :: Common pitfalls in the interpretation of coefficients of linear models > Preprocessing numerical variables
+[2] auto_examples/inspection/plot_linear_model_coefficient_interpretation.html :: Common pitfalls in the interpretation of coefficients of linear models > Linear models with regularization
+[3] auto_examples/miscellaneous/plot_pipeline_display.html :: Displaying Pipelines > Displaying a Pipeline with a Preprocessing Step and Classifier
+[4] auto_examples/model_selection/plot_precision_recall.html :: Precision-Recall > In binary classification settings > Dataset and model
+[5] auto_examples/inspection/plot_linear_model_coefficient_interpretation.html :: Common pitfalls in the interpretation of coefficients of linear models > Processing the dataset",17.23,1719,229,0,0,1,Retrieval missed FrozenEstimator; answer misreads a Pipeline caching note as the solution. Example code not from sources.
+V6,version_specific,yes,closed_book,How do I use an already-fitted model as a step in a pipeline without it being refitted?,"Wrap it in sklearn.frozen.FrozenEstimator (added in 1.6): fit does nothing, and fit_predict / fit_transform just call predict / transform.","You can use the `set_params` method to specify that the model should not be refitted. For example:
+
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_selection import SelectKBest
+
+X, y = ...  # your data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+selector = SelectKBest(k=10)
+model = LogisticRegression()
+
+pipeline = Pipeline([
+    ('selector', selector),
+    ('model', model)
+])
+
+pipeline.set_params(selector__fit=None, model__fit=None)
+
+pipeline.fit(X_train, y_train)
+```",False,True,0,0,0,False,,,6.44,96,153,0,,,Invents set_params(selector__fit=None).
+V7,version_specific,yes,rag,Can I pass my own validation set for early stopping to HistGradientBoostingClassifier?,"Yes, since 1.7: pass X_val, y_val (and optionally sample_weight_val) to fit. In a Pipeline, X_val can be transformed with the transform_input parameter, using metadata routing.","Yes, you can pass your own validation set for early stopping to HistGradientBoostingClassifier. You can do this by passing the data to be used for validation directly to fit via the arguments X_val, y_val and sample_weight_val [1]. This is a new feature added in version 1.7.0 [1].
+
+Here is an example of how to do this [5]:
+```
+clf = HistGradientBoostingClassifier()
+clf.set_fit_request(X_val=True, y_val=True)
+
+model = Pipeline([(""sc"", StandardScaler()), (""clf"", clf)], transform_input=[""X_val""])
+model.fit(X, y, X_val=X_val, y_val=y_val)
+```
+Note that this feature is only available for HistGradientBoostingClassifier and HistGradientBoostingRegressor [1].",False,True,5,2,0,False,0.5,"[1] whats_new/v1.7.html :: Version 1.7 > Version 1.7.0 > sklearn.ensemble
+[2] modules/generated/sklearn.ensemble.HistGradientBoostingClassifier.html :: HistGradientBoostingClassifier
+[3] auto_examples/release_highlights/plot_release_highlights_1_7_0.html :: Release Highlights for scikit-learn 1.7 > Custom validation set for histogram-based Gradient Boosting estimators
+[4] modules/generated/sklearn.linear_model.SGDClassifier.html :: SGDClassifier
+[5] auto_examples/release_highlights/plot_release_highlights_1_7_0.html :: Release Highlights for scikit-learn 1.7 > Custom validation set for histogram-based Gradient Boosting estimators",13.71,1563,163,2,1,2,'Only available for HGB' is not stated in the sources.
+V7,version_specific,yes,closed_book,Can I pass my own validation set for early stopping to HistGradientBoostingClassifier?,"Yes, since 1.7: pass X_val, y_val (and optionally sample_weight_val) to fit. In a Pipeline, X_val can be transformed with the transform_input parameter, using metadata routing.","No, you cannot pass your own validation set for early stopping to HistGradientBoostingClassifier. It uses the training data for early stopping by default.",False,True,0,0,0,False,,,1.39,92,31,0,,,Says it is not possible.
+V8,version_specific,yes,rag,What is classical MDS and where is it in scikit-learn?,"sklearn.manifold.ClassicalMDS (added in 1.8), also called Principal Coordinates Analysis or Torgerson's scaling. It approximates pairwise scalar products rather than distances and has an exact solution by eigendecomposition, similar to PCA.","Classical MDS, also known as Principal Coordinates Analysis (PCoA) or Torgerson’s scaling, is a version of MDS that has an exact solution in terms of eigendecomposition [1][2]. It approximates pairwise scalar products instead of distances, which is an easier optimization problem [1]. Classical MDS is equivalent to PCA applied to the set of vectors if the input dissimilarity matrix consists of the pairwise Euclidean distances between some vectors [3]. It is implemented in the separate ClassicalMDS class in scikit-learn [2][3].",False,True,5,3,0,False,0.6666666666666666,"[1] auto_examples/release_highlights/plot_release_highlights_1_8_0.html :: Release Highlights for scikit-learn 1.8 > ClassicalMDS
+[2] modules/manifold.html :: 2.2. Manifold learning > 2.2.8. Multi-dimensional Scaling (MDS)
+[3] modules/generated/sklearn.manifold.ClassicalMDS.html :: ClassicalMDS
+[4] modules/manifold.html :: 2.2. Manifold learning > 2.2.8. Multi-dimensional Scaling (MDS)
+[5] modules/generated/sklearn.manifold.MDS.html :: MDS",11.3,1463,119,2,2,2,
+V8,version_specific,yes,closed_book,What is classical MDS and where is it in scikit-learn?,"sklearn.manifold.ClassicalMDS (added in 1.8), also called Principal Coordinates Analysis or Torgerson's scaling. It approximates pairwise scalar products rather than distances and has an exact solution by eigendecomposition, similar to PCA.","Classical Multidimensional Scaling (MDS) is a dimensionality reduction technique that aims to preserve the distances between data points. It is also known as Isomap.
+
+In scikit-learn, Classical MDS is implemented in the `manifold.MDS` class.",False,True,0,0,0,False,,,2.44,90,56,0,,,Calls it Isomap and points to manifold.MDS.
+A1,api_detail,yes,rag,"If I call train_test_split without test_size or train_size, what fraction of the data goes to the test set?",0.25. If test_size is None it is the complement of train_size; if train_size is also None it is set to 0.25.,"If you call train_test_split without test_size or train_size, the fraction of the data that goes to the test set is 0.25 [1].",False,True,5,1,0,False,1.0,"[1] modules/generated/sklearn.model_selection.train_test_split.html :: train_test_split
+[2] modules/generated/sklearn.model_selection.GroupShuffleSplit.html :: GroupShuffleSplit
+[3] modules/generated/sklearn.model_selection.ShuffleSplit.html :: ShuffleSplit
+[4] modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html :: StratifiedShuffleSplit
+[5] auto_examples/kernel_approximation/plot_scalable_poly_kernels.html :: Scalable learning with polynomial kernel approximation > Partitioning the data",7.55,1408,33,2,2,2,
+A1,api_detail,yes,closed_book,"If I call train_test_split without test_size or train_size, what fraction of the data goes to the test set?",0.25. If test_size is None it is the complement of train_size; if train_size is also None it is set to 0.25.,"By default, `test_size` is 0.25, which means 25% of the data will go to the test set.",False,True,0,0,0,False,,,1.34,99,29,2,,,"Right answer, though it says the default test_size is 0.25 (it is None)."
+A2,api_detail,yes,rag,"With the default n_init, how many times does KMeans run when init is 'k-means++'?","Once. n_init='auto' means 1 run for init='k-means++' (or an array), and 10 runs for init='random' or a callable.","When init is 'k-means++', the default n_init is 'auto' [1][3]. When n_init='auto' and init='k-means++', the number of runs is 1 [1][3].",False,True,5,2,0,False,0.5,"[1] modules/generated/sklearn.cluster.KMeans.html :: KMeans
+[2] modules/generated/sklearn.cluster.MiniBatchKMeans.html :: MiniBatchKMeans
+[3] modules/generated/sklearn.cluster.k_means.html :: k_means
+[4] modules/generated/sklearn.cluster.KMeans.html :: KMeans
+[5] auto_examples/cluster/plot_kmeans_digits.html :: A demo of K-Means clustering on the handwritten digits data > Run the benchmark",9.26,1637,49,2,2,2,
+A2,api_detail,yes,closed_book,"With the default n_init, how many times does KMeans run when init is 'k-means++'?","Once. n_init='auto' means 1 run for init='k-means++' (or an array), and 10 runs for init='random' or a callable.","When init is 'k-means++', KMeans runs 10 times with the default n_init.",False,True,0,0,0,False,,,1.07,97,22,0,,,Says 10 runs (the old default).
+A3,api_detail,yes,rag,What value of gamma does SVC use by default?,"gamma='scale', which uses 1 / (n_features * X.var()). The default changed from 'auto' (1 / n_features) to 'scale' in version 0.22.","The default value of gamma for SVC is 'scale' [1][4]. This means that if gamma='scale' (default) is passed, SVC uses 1 / (n_features * X.var()) as the value of gamma [1][4].",False,True,5,2,0,False,1.0,"[1] modules/generated/sklearn.svm.SVC.html :: SVC
+[2] auto_examples/miscellaneous/plot_roc_curve_visualization_api.html :: ROC Curve with Visualization API > Load Data and Train an SVC
+[3] auto_examples/model_selection/plot_grid_search_stats.html :: Statistical comparison of models using grid search
+[4] modules/generated/sklearn.svm.SVC.html :: SVC
+[5] modules/generated/sklearn.svm.NuSVC.html :: NuSVC",10.03,1764,53,2,2,2,Omits the 0.22 default change.
+A3,api_detail,yes,closed_book,What value of gamma does SVC use by default?,"gamma='scale', which uses 1 / (n_features * X.var()). The default changed from 'auto' (1 / n_features) to 'scale' in version 0.22.",The default value of gamma for SVC is 'auto'.,False,True,0,0,0,False,,,0.57,85,12,0,,,Says 'auto' (the pre-0.22 default).
+A4,api_detail,yes,rag,When is early stopping turned on by default in HistGradientBoostingClassifier?,"early_stopping='auto' enables it when the sample size is larger than 10,000, or when X_val and y_val are passed to fit.","Early stopping is turned on by default in HistGradientBoostingClassifier when the number of samples exceeds 10k [2]. This is also mentioned in the Release Highlights for scikit-learn 0.23 [3], which states that early-stopping is enabled by default when the number of samples exceeds 10k.",False,True,5,2,0,False,0.5,"[1] whats_new/v0.23.html :: Version 0.23 > Version 0.23.0 > Changelog > sklearn.ensemble
+[2] modules/generated/sklearn.ensemble.HistGradientBoostingClassifier.html :: HistGradientBoostingClassifier
+[3] auto_examples/release_highlights/plot_release_highlights_0_23_0.html :: Release Highlights for scikit-learn 0.23 > Improvements to the histogram-based Gradient Boosting estimators
+[4] modules/generated/sklearn.ensemble.HistGradientBoostingClassifier.html :: HistGradientBoostingClassifier
+[5] modules/generated/sklearn.ensemble.GradientBoostingRegressor.html :: GradientBoostingRegressor",9.17,1447,66,1,2,2,Misses the second condition (X_val and y_val passed to fit).
+A4,api_detail,yes,closed_book,When is early stopping turned on by default in HistGradientBoostingClassifier?,"early_stopping='auto' enables it when the sample size is larger than 10,000, or when X_val and y_val are passed to fit.",Early stopping is turned on by default in HistGradientBoostingClassifier when the `max_iter` parameter is set to a value greater than 1.,False,True,0,0,0,False,,,1.4,90,31,0,,,Says it depends on max_iter > 1.
+A5,api_detail,yes,rag,Which metric does TunedThresholdClassifierCV optimise by default?,"Balanced accuracy (scoring=""balanced_accuracy"").","TunedThresholdClassifierCV optimizes the ""balanced_accuracy"" metric by default [2].",False,True,5,1,0,False,1.0,"[1] auto_examples/release_highlights/plot_release_highlights_1_5_0.html :: Release Highlights for scikit-learn 1.5 > TunedThresholdClassifierCV: Tuning the decision threshold of a binary classifier
+[2] modules/generated/sklearn.model_selection.TunedThresholdClassifierCV.html :: TunedThresholdClassifierCV
+[3] auto_examples/release_highlights/plot_release_highlights_1_5_0.html :: Release Highlights for scikit-learn 1.5 > TunedThresholdClassifierCV: Tuning the decision threshold of a binary classifier
+[4] auto_examples/model_selection/plot_cost_sensitive_learning.html :: Post-tuning the decision threshold for cost-sensitive learning > Cost-sensitive learning with constant gains and costs > Tuning the cut-off point
+[5] auto_examples/release_highlights/plot_release_highlights_1_5_0.html :: Release Highlights for scikit-learn 1.5 > TunedThresholdClassifierCV: Tuning the decision threshold of a binary classifier",7.38,1502,19,2,2,2,
+A5,api_detail,yes,closed_book,Which metric does TunedThresholdClassifierCV optimise by default?,"Balanced accuracy (scoring=""balanced_accuracy"").",The TunedThresholdClassifierCV optimizes the F1 score by default.,False,True,0,0,0,False,,,0.8,88,16,0,,,Says F1.
+A6,api_detail,yes,rag,How many samples and features does the California housing dataset have?,"20,640 samples and 8 numeric features; the target is real-valued (median house value).","The California housing dataset has 20,640 samples [1] and 9 features [1].",False,True,5,1,0,False,1.0,"[1] modules/generated/sklearn.datasets.fetch_california_housing.html :: fetch_california_housing
+[2] datasets/real_world.html :: 9.2. Real world datasets > 9.2.7. California Housing dataset
+[3] modules/generated/sklearn.datasets.fetch_california_housing.html :: fetch_california_housing
+[4] auto_examples/impute/plot_missing_values.html :: Imputing missing values before building an estimator > Download the data and make missing values sets
+[5] datasets/real_world.html :: 9.2. Real world datasets > 9.2.7. California Housing dataset",6.34,1261,21,1,2,2,"Says 9 features: copied from the docs' Notes, which conflict with the data shape (20640, 8). Documentation inconsistency."
+A6,api_detail,yes,closed_book,How many samples and features does the California housing dataset have?,"20,640 samples and 8 numeric features; the target is real-valued (median house value).",The California housing dataset has 20640 samples and 8 features.,False,True,0,0,0,False,,,0.72,87,15,2,,,
+A7,api_detail,yes,rag,What values can handle_unknown take in OneHotEncoder and what is the default?,"'error' (default), 'ignore', 'infrequent_if_exist' and 'warn'.","The `handle_unknown` parameter in `OneHotEncoder` can take the following values: 'error', 'ignore', 'infrequent_if_exist', and 'warn'. The default value is 'error' [1][4].",False,True,5,2,0,False,0.5,"[1] auto_examples/inspection/plot_partial_dependence.html :: Partial Dependence and Individual Conditional Expectation Plots > Preprocessor for machine-learning models > Preprocessor for the neural network model
+[2] auto_examples/miscellaneous/plot_estimator_representation.html :: Displaying estimators and complex pipelines > Rich HTML representation
+[3] modules/preprocessing.html :: 8.3. Preprocessing data > 8.3.4. Encoding categorical features
+[4] modules/generated/sklearn.preprocessing.OneHotEncoder.html :: OneHotEncoder
+[5] auto_examples/miscellaneous/plot_pipeline_display.html :: Displaying Pipelines > Displaying a Grid Search over a Pipeline with a Classifier",9.34,1661,47,2,2,2,
+A7,api_detail,yes,closed_book,What values can handle_unknown take in OneHotEncoder and what is the default?,"'error' (default), 'ignore', 'infrequent_if_exist' and 'warn'.","In OneHotEncoder, the `handle_unknown` parameter can take the following values:
+
+* `'error'`: Raise an error if an unknown category is encountered.
+* `'ignore'`: Ignore the unknown category and continue encoding.
+* `'new_category'`: Add the unknown category as a new feature.
+
+The default value is `'error'`.",False,True,0,0,0,False,,,3.03,91,69,1,,,"Error and ignore correct, default correct; invents 'new_category' and misses infrequent_if_exist and warn."
+P1,paraphrase,yes,rag,Each patient contributes several samples to my dataset. How do I make sure the same patient never appears in both the training and test folds?,"Use a group-aware splitter such as GroupKFold (or StratifiedGroupKFold / LeaveOneGroupOut), passing the patient ids as the groups argument.","To ensure that the same patient never appears in both the training and test folds, you can use the GroupKFold cross-validation iterator. This iterator attempts to place the same number of samples in each fold when shuffle=False, and when shuffle=True it attempts to place an equal number of distinct groups in each fold [2]. In your case, the patient id for each sample can be used as the group identifier [1]. This way, each patient will be in a different testing fold, and the same patient will never be in both testing and training [2].
+
+Here is an example of how to use GroupKFold:
+```
+>>> from sklearn.model_selection import GroupKFold
+>>> gkf = GroupKFold(n_splits=2)
+>>> for train, test in gkf.split(X, groups=patient_ids):
+...     print(""%s %s"" % (train, test))
+```
+Note that the groups parameter is used to specify the group identifier for each sample [1].",False,True,5,2,0,False,1.0,"[1] modules/cross_validation.html :: 3.1. Cross-validation: evaluating estimator performance > 3.1.2. Cross validation iterators > 3.1.2.4. Cross-validation iterators for grouped data
+[2] modules/cross_validation.html :: 3.1. Cross-validation: evaluating estimator performance > 3.1.2. Cross validation iterators > 3.1.2.4. Cross-validation iterators for grouped data > 3.1.2.4.1. Group K-fold
+[3] modules/generated/sklearn.datasets.fetch_lfw_pairs.html :: fetch_lfw_pairs
+[4] modules/cross_validation.html :: 3.1. Cross-validation: evaluating estimator performance > 3.1.2. Cross validation iterators > 3.1.2.1. Cross-validation iterators for i.i.d. data > 3.1.2.1.1. K-fold
+[5] modules/cross_validation.html :: 3.1. Cross-validation: evaluating estimator performance",15.15,1496,199,2,2,2,
+P1,paraphrase,yes,closed_book,Each patient contributes several samples to my dataset. How do I make sure the same patient never appears in both the training and test folds?,"Use a group-aware splitter such as GroupKFold (or StratifiedGroupKFold / LeaveOneGroupOut), passing the patient ids as the groups argument.","You can use `GroupKFold` from scikit-learn, which allows you to specify a group identifier for each sample. In your case, the group identifier would be the patient ID. This way, the same patient will never be in both the training and test folds.",False,True,0,0,0,False,,,2.51,102,57,2,,,
+P2,paraphrase,yes,rag,My model scored very well in cross-validation but badly on new data. I standardised the whole dataset before splitting it. What went wrong?,"Data leakage: the scaler was fitted on data that included the test folds. Fit preprocessing on the training data only, e.g. by putting the scaler and model in a Pipeline.","You standardized the whole dataset before splitting it, which means that the test set was also standardized. This can lead to overfitting, as the model is trained and tested on the same scale, rather than being tested on unseen data with a different scale [3]. 
+
+In particular, if the data ordering is not arbitrary, shuffling the data before splitting it may be essential to get a meaningful cross-validation result [3]. In your case, standardizing the whole dataset before splitting it may have artificially inflated the validation score, as the test set was also standardized. 
+
+It is recommended to standardize the data separately for the training and test sets, rather than standardizing the whole dataset before splitting it [1].",False,True,5,2,0,False,0.0,"[1] getting_started.html :: Getting Started > Model evaluation
+[2] modules/cross_validation.html :: 3.1. Cross-validation: evaluating estimator performance
+[3] modules/cross_validation.html :: 3.1. Cross-validation: evaluating estimator performance > 3.1.3. A note on shuffling
+[4] whats_new/v0.18.html :: Version 0.18 > Version 0.18 > Model Selection Enhancements and API Changes
+[5] auto_examples/inspection/plot_linear_model_coefficient_interpretation.html :: Common pitfalls in the interpretation of coefficients of linear models > Linear models with regularization",12.11,1341,144,1,0,0,Never names data leakage; reasoning about 'scale' and shuffling is not in [3]; fix attributed to [1] is not there.
+P2,paraphrase,yes,closed_book,My model scored very well in cross-validation but badly on new data. I standardised the whole dataset before splitting it. What went wrong?,"Data leakage: the scaler was fitted on data that included the test folds. Fit preprocessing on the training data only, e.g. by putting the scaler and model in a Pipeline.","You likely overfit the standardization to the training data, which is not a problem in itself, but the issue is that you're using the same standardization parameters for the test data, which may not be representative of the new data. This can lead to poor performance on unseen data. Consider standardizing each dataset separately, or use a more robust standardization method like `StandardScaler` with `with_mean=False` and `with_std=False` to avoid overfitting.",False,True,0,0,0,False,,,4.3,103,97,0,,,"Muddled; suggests standardising each set separately and with_mean=False, with_std=False."
+P3,paraphrase,yes,rag,The probabilities my classifier predicts don't match how often it is actually right. How can I fix this?,"Calibrate the probabilities with CalibratedClassifierCV, using sigmoid (Platt), isotonic or temperature scaling, and check them with a calibration (reliability) curve.","You can use the calibration module to better calibrate the probabilities of a given model. This can be done by detecting how good a classifier is calibrated using a method such as Brier's score [1][2]. If your classifier is not well-calibrated, you can try using a separate calibration of predicted probabilities, such as a sigmoid calibration or a non-parametric isotonic calibration [2].
+
+Alternatively, you can check if the classifier you are using is known to have issues with probability prediction. For example, some instances of SGDClassifier do not support probability prediction [1]. In this case, you may need to use a different classifier.
+
+It's also worth noting that some classifiers, such as AdaBoostClassifier, have been fixed to compute probabilities based on the decision function in recent versions of scikit-learn [4].
+
+Here is an example of how to use the calibration module:
+```
+from sklearn.calibration import calibration_curve
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load the iris dataset
+iris = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.2, random_state=42)
+
+# Train a random forest classifier
+clf = RandomForestClassifier()
+clf.fit(X_train, y_train)
+
+# Get the predicted probabilities
+y_pred_proba = clf.predict_proba(X_test)
+
+# Plot the calibration curve
+fraction_of_positives, mean_predicted_value = calibration_curve(y_test, y_pred_proba[:, 1], n_bins=10)
+```",False,True,5,3,0,False,0.3333333333333333,"[1] modules/calibration.html :: 1.16. Probability calibration
+[2] auto_examples/calibration/plot_calibration.html :: Probability calibration of classifiers
+[3] modules/generated/sklearn.tree.ExtraTreeClassifier.html :: ExtraTreeClassifier
+[4] whats_new/v0.22.html :: Version 0.22 > Version 0.22.0 > Changelog > sklearn.ensemble
+[5] getting_started.html :: Getting Started > Transformers and pre-processors",20.26,1352,328,1,1,2,Points to calibration but not CalibratedClassifierCV; code only plots a curve and misuses multiclass iris; code not from sources.
+P3,paraphrase,yes,closed_book,The probabilities my classifier predicts don't match how often it is actually right. How can I fix this?,"Calibrate the probabilities with CalibratedClassifierCV, using sigmoid (Platt), isotonic or temperature scaling, and check them with a calibration (reliability) curve.","This discrepancy is likely due to the fact that the classifier is not calibrated. You can use the `calibration_curve` function from `sklearn.calibration` to visualize the calibration of your classifier. If the classifier is not well-calibrated, you can try using a calibrated classifier, such as `CalibratedClassifierCV` or `CalibratedClassifierSVC`, which can be used to calibrate the probabilities output by the classifier.",False,True,0,0,0,False,,,3.81,96,88,1,,,"CalibratedClassifierCV and calibration_curve correct, but invents CalibratedClassifierSVC."
+P4,paraphrase,yes,rag,Gradient boosting is far too slow on my dataset of 200 thousand rows. What should I use instead?,"HistGradientBoostingClassifier / HistGradientBoostingRegressor, which are much faster than GradientBoosting for big datasets (n_samples >= 10,000) and also support missing values natively.","You should use HistGradientBoostingClassifier or HistGradientBoostingRegressor instead of GradientBoostingClassifier or GradientBoostingRegressor. This is because the former is much faster than the latter, especially for large datasets [2]. In fact, the Hist version can be orders of magnitude faster than the Gradient version when the number of samples is larger than tens of thousands of samples [5].
+
+Additionally, the Hist version has better performance for large datasets and is more suitable for your dataset of 200 thousand rows [5]. It also natively supports missing values and categorical data, removing the need for additional preprocessing [5].
+
+Here is an example of how to use HistGradientBoostingRegressor:
+```
+>>> from sklearn.ensemble import HistGradientBoostingRegressor
+
+>>> est = HistGradientBoostingRegressor(
+...     n_estimators=100, learning_rate=0.1, max_depth=1, random_state=0,
+...     loss='squared_error'
+... ).fit(X_train, y_train)
+```
+[2][5]",False,True,5,2,0,False,1.0,"[1] modules/ensemble.html :: 1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking > 1.11.1. Gradient-boosted trees > 1.11.1.2. GradientBoostingClassifier and GradientBoostingRegressor
+[2] modules/ensemble.html :: 1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking > 1.11.1. Gradient-boosted trees > 1.11.1.1. Histogram-Based Gradient Boosting > 1.11.1.1.8. Why it’s faster
+[3] auto_examples/ensemble/plot_gradient_boosting_early_stopping.html :: Early stopping in Gradient Boosting
+[4] modules/ensemble.html :: 1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking > 1.11.1. Gradient-boosted trees > 1.11.1.1. Histogram-Based Gradient Boosting > 1.11.1.1.8. Why it’s faster
+[5] modules/ensemble.html :: 1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking > 1.11.1. Gradient-boosted trees",16.26,1613,209,2,1,1,"Example code uses n_estimators, which HistGradientBoostingRegressor does not have; citations after the code are misleading."
+P4,paraphrase,yes,closed_book,Gradient boosting is far too slow on my dataset of 200 thousand rows. What should I use instead?,"HistGradientBoostingClassifier / HistGradientBoostingRegressor, which are much faster than GradientBoosting for big datasets (n_samples >= 10,000) and also support missing values natively.","You may want to consider using Random Forest, which is often faster and just as accurate as Gradient Boosting. Alternatively, you could also try using LightGBM, which is a variant of Gradient Boosting that is specifically designed to be faster and more efficient.",False,True,0,0,0,False,,,2.39,96,53,0,,,"Suggests RandomForest or LightGBM, not HistGradientBoosting."
+P5,paraphrase,yes,rag,I only want my binary classifier to predict the positive class when it is at least 80% sure. How do I set that up?,Wrap the classifier in FixedThresholdClassifier with threshold=0.8 (the threshold is applied to predict_proba; by default it is 0.5 for probabilities).,"To set up your binary classifier to predict the positive class only when it is at least 80% sure, you can use the FixedThresholdClassifier. You need to set the threshold parameter to the desired value, which is 0.8 in this case. Here's how you can do it:
+
+```python
+from sklearn.model_selection import FixedThresholdClassifier
+
+classifier = LogisticRegression(C=1e6, random_state=0)
+classifier.fit(X_train, y_train)
+
+fixed_threshold_classifier = FixedThresholdClassifier(classifier, threshold=0.8)
+fixed_threshold_classifier.fit(X_train, y_train)
+```
+
+This will set the decision threshold to 0.8, so the classifier will only predict the positive class when the probability of being positive is at least 80%. [1][2]",False,True,5,2,0,False,1.0,"[1] modules/generated/sklearn.model_selection.FixedThresholdClassifier.html :: FixedThresholdClassifier
+[2] auto_examples/release_highlights/plot_release_highlights_1_5_0.html :: Release Highlights for scikit-learn 1.5 > FixedThresholdClassifier: Setting the decision threshold of a binary classifier
+[3] modules/generated/sklearn.model_selection.FixedThresholdClassifier.html :: FixedThresholdClassifier
+[4] modules/classification_threshold.html :: 3.3. Tuning the decision threshold for class prediction
+[5] modules/model_evaluation.html :: 3.4. Metrics and scoring: quantifying the quality of predictions > 3.4.4. Classification metrics > 3.4.4.19. Class likelihood ratios",13.74,1525,162,2,2,2,LogisticRegression import missing in the example.
+P5,paraphrase,yes,closed_book,I only want my binary classifier to predict the positive class when it is at least 80% sure. How do I set that up?,Wrap the classifier in FixedThresholdClassifier with threshold=0.8 (the threshold is applied to predict_proba; by default it is 0.5 for probabilities).,"You can use the `predict_proba` method to get the probabilities, and then use a threshold of 0.8 to make the predictions. Here's an example:
+
+```python
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+# Load the dataset
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a random forest classifier
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+
+# Get the probabilities
+probs = clf.predict_proba(X_test)
+
+# Make predictions with a threshold of 0.8
+y_pred = (probs[:, 1] >= 0.8).astype(int)
+
+print(y_pred)
+```
+
+In this example, we're using a random forest classifier, but you can replace it with any other binary classifier. The `predict_proba` method returns the probabilities of the positive class for each sample. We then use a threshold of 0.8 to make the predictions. The `(probs[:, 1] >= 0.8).astype(int)` expression creates a new array where each element is 1 if the probability of the positive class is at least 0.8, and 0 otherwise.",False,True,0,0,0,False,,,13.09,103,306,1,,,"Manual thresholding of predict_proba works, but the example uses multiclass iris; no FixedThresholdClassifier."
+P6,paraphrase,yes,rag,How can I see a progress bar while my logistic regression is training?,Use the experimental callbacks added in 1.9: create sklearn.callback.ProgressBar and register it on the estimator with set_callbacks before calling fit.,"To see a progress bar while your logistic regression is training, you can register a ProgressBar callback on the estimator. Here's how to do it [1]:
+
+1. Import the ProgressBar callback from sklearn.callback: `from sklearn.callback import ProgressBar`
+2. Create an instance of the ProgressBar callback: `progress_bar = ProgressBar()`
+3. Register the progress bar on the logistic regression estimator: `logreg.set_callbacks(progress_bar)`
+
+Now, when you call the fit method on the logistic regression estimator, a progress bar will be displayed [1].",False,True,5,1,0,False,1.0,"[1] callbacks.html :: 7. Callbacks > 7.1. Registering callbacks
+[2] auto_examples/callbacks/plot_scoring_monitor.html :: Analysis of the convergence of penalized logistic regression models > Setup
+[3] auto_examples/callbacks/plot_scoring_monitor.html :: Analysis of the convergence of penalized logistic regression models
+[4] auto_examples/calibration/plot_compare_calibration.html :: Comparison of Calibration of Classifiers > Analysis of the results
+[5] auto_examples/release_highlights/plot_release_highlights_1_9_0.html :: Release Highlights for scikit-learn 1.9 > Callbacks",11.27,1442,110,2,2,2,
+P6,paraphrase,yes,closed_book,How can I see a progress bar while my logistic regression is training?,Use the experimental callbacks added in 1.9: create sklearn.callback.ProgressBar and register it on the estimator with set_callbacks before calling fit.,You can use the `verbose` parameter in the `LogisticRegression` class to display a progress bar. Set `verbose=1` to see the progress bar.,False,True,0,0,0,False,,,1.75,89,35,0,,,verbose=1 does not show a progress bar.
+P7,paraphrase,yes,rag,One of my categorical columns has thousands of rare values. How can I group the rare ones together when one-hot encoding?,"Use OneHotEncoder's infrequent-category support: min_frequency (categories below this count or fraction become infrequent) and/or max_categories, with handle_unknown='infrequent_if_exist' if needed.","You can use the `min_frequency` parameter of the `OneHotEncoder` to group rare categories together. This parameter specifies the minimum frequency of a category to be encoded. Categories with a frequency below this threshold will be grouped together into a single category.
+
+For example, you can use the following code:
+```
+one_hot_encoder = OneHotEncoder(handle_unknown='ignore', min_frequency=10)
+```
+This will group categories with a frequency of less than 10 together into a single category.
+
+Note that this is not explicitly mentioned in the sources, but it can be inferred from the documentation of the `OneHotEncoder` class [2]. The `min_frequency` parameter is mentioned as an optional parameter, and its purpose is to allow the user to specify the minimum frequency of a category to be encoded.",False,True,5,1,0,False,1.0,"[1] auto_examples/inspection/plot_linear_model_coefficient_interpretation.html :: Common pitfalls in the interpretation of coefficients of linear models > The machine-learning pipeline
+[2] modules/generated/sklearn.preprocessing.OneHotEncoder.html :: OneHotEncoder
+[3] auto_examples/compose/plot_column_transformer_mixed_types.html :: Column Transformer with Mixed Types
+[4] auto_examples/applications/plot_cyclical_feature_engineering.html :: Time-related feature engineering > Time-steps as categories
+[5] auto_examples/ensemble/plot_gradient_boosting_categorical.html :: Categorical Feature Support in Gradient Boosting > Limiting the number of splits",16.06,1455,164,2,1,1,Explanation of min_frequency is not in the shown source (the model says so); [2] only shows the signature. Misses max_categories.
+P7,paraphrase,yes,closed_book,One of my categorical columns has thousands of rare values. How can I group the rare ones together when one-hot encoding?,"Use OneHotEncoder's infrequent-category support: min_frequency (categories below this count or fraction become infrequent) and/or max_categories, with handle_unknown='infrequent_if_exist' if needed.","You can use the `SparseHashingEncoder` or `HashingEncoder` from `sklearn.preprocessing` to one-hot encode categorical variables with a large number of categories. However, for grouping rare categories together, you can use the `LabelEncoder` to map rare categories to a single label, and then one-hot encode the resulting encoded variable. Alternatively, you can use the `OneHotEncoder` with the `handle_unknown` parameter set to `'ignore'` and then manually map the rare categories to a single label.",False,True,0,0,0,False,,,5.17,99,107,0,,,Invents SparseHashingEncoder/HashingEncoder in sklearn.preprocessing.
+P8,paraphrase,yes,rag,How can I fill missing values using my own function of each column instead of the mean or median?,Pass a callable as SimpleImputer's strategy (supported since 1.5); it receives the non-missing values of a column and returns the scalar used to fill the gaps.,"You can fill missing values using your own function of each column by setting the `strategy` parameter to an instance of a Callable [1][2]. This allows you to replace missing values using the scalar statistic returned by running the callable over a dense 1d array containing non-missing values of each column.
+
+Here is an example of how to use a custom function for imputation:
+```python
+from sklearn.impute import SimpleImputer
+import numpy as np
+
+def custom_imputation_function(x):
+    # Your custom imputation function here
+    return np.mean(x)
+
+imputer = SimpleImputer(strategy=custom_imputation_function)
+```
+Note that this feature was added in version 1.5 [1][2].",False,True,5,2,0,False,0.5,"[1] auto_examples/compose/plot_column_transformer_mixed_types.html :: Column Transformer with Mixed Types
+[2] modules/generated/sklearn.impute.SimpleImputer.html :: SimpleImputer
+[3] auto_examples/release_highlights/plot_release_highlights_1_1_0.html :: Release Highlights for scikit-learn 1.1 > get_feature_names_out Available in all Transformers
+[4] auto_examples/miscellaneous/plot_pipeline_display.html :: Displaying Pipelines > Displaying a Grid Search over a Pipeline with a Classifier
+[5] auto_examples/miscellaneous/plot_pipeline_display.html :: Displaying Pipelines > Displaying a Grid Search over a Pipeline with a Classifier",13.8,1705,149,2,2,2,
+P8,paraphrase,yes,closed_book,How can I fill missing values using my own function of each column instead of the mean or median?,Pass a callable as SimpleImputer's strategy (supported since 1.5); it receives the non-missing values of a column and returns the scalar used to fill the gaps.,"You can use the `apply` function to apply your custom function to each column. For example:
+
+```python
+import pandas as pd
+from sklearn.impute import SimpleImputer
+
+def custom_fill_missing_values(series):
+    # Your custom function to fill missing values
+    return series.fillna(0)  # Replace 0 with your custom logic
+
+imputer = SimpleImputer(strategy='function')
+imputer.fit_transform(df.apply(custom_fill_missing_values))
+```
+
+In this example, `custom_fill_missing_values` is your custom function that takes a pandas Series as input and returns the filled Series. The `SimpleImputer` is then used with the `strategy='function'` parameter to apply this function to each column.",False,True,0,0,0,False,,,6.33,95,149,0,,,Invents strategy='function'.
+P9,paraphrase,yes,rag,"After fitting a ColumnTransformer, how do I get at one of its transformers by the name I gave it?","Index the ColumnTransformer by name, e.g. ct[""std_scaler""] (subscripting added in 1.5); named_transformers_ also works.","You can get at one of the transformers by the name you gave it using the `named_steps` attribute. This attribute is available after fitting the pipeline. 
+
+For example, if you have a ColumnTransformer named ""my_transformer"", you can access its underlying transformer instance using `named_steps['my_transformer']`.
+
+[1][2][5]",False,True,5,3,0,False,0.0,"[1] auto_examples/release_highlights/plot_release_highlights_1_1_0.html :: Release Highlights for scikit-learn 1.1 > get_feature_names_out Available in all Transformers
+[2] auto_examples/ensemble/plot_gradient_boosting_categorical.html :: Categorical Feature Support in Gradient Boosting > Gradient boosting estimator with one-hot encoding
+[3] auto_examples/applications/plot_cyclical_feature_engineering.html :: Time-related feature engineering > Modeling non-linear feature interactions with kernels
+[4] whats_new/v0.23.html :: Version 0.23 > Version 0.23.0 > Changelog > sklearn.compose
+[5] auto_examples/miscellaneous/plot_pipeline_display.html :: Displaying Pipelines > Displaying a Complex Pipeline Chaining a Column Transformer",10.07,1609,72,0,0,0,"Retrieval missed the right page; named_steps is a Pipeline attribute, not ColumnTransformer; citations do not support it."
+P9,paraphrase,yes,closed_book,"After fitting a ColumnTransformer, how do I get at one of its transformers by the name I gave it?","Index the ColumnTransformer by name, e.g. ct[""std_scaler""] (subscripting added in 1.5); named_transformers_ also works.","You can use the `transformers_` attribute of the ColumnTransformer instance, which is a list of tuples containing the transformer and its name. You can access a transformer by its name like this:
+
+```python
+ct = ColumnTransformer(transformers=[('name', transformer, features)])
+transformer = ct.transformers_[ct.transformers_.index(('name', transformer, features))][1]
+```
+
+Alternatively, you can use the `get_feature_names_out` method to get the names of the features and then use the `transformers_` attribute to get the corresponding transformer:
+
+```python
+ct = ColumnTransformer(transformers=[('name', transformer, features)])
+feature_names = ct.get_feature_names_out()
+transformer = ct.transformers_[feature_names.index('name')]
+```",False,True,0,0,0,False,,,6.82,97,158,0,,,Index lookups on transformers_ would not work; misses named_transformers_ and subscripting.
+P10,paraphrase,yes,rag,Does scikit-learn have a helper to download a data file from any URL with caching and an integrity check?,"Yes: sklearn.datasets.fetch_file (added in 1.6) downloads from a URL with local caching, an optional SHA256 check and automatic retries.","Yes, scikit-learn has a helper to download a data file from any URL with caching and an integrity check. The function `datasets.fetch_file` allows downloading a file from any given URL [1]. It provides built-in local disk caching, sha256 digest integrity check, and an automated retry mechanism on network error [1]. The downloaded file can then be loaded with generic or domain-specific functions such as `pandas.read_csv` [1].
+
+The function `fetch_file` is available in version 1.6 and later, and its parameters include `url`, `folder`, `local_filename`, `sha256`, `n_retries`, and `delay` [2]. The function returns the full path of the downloaded file [2].
+
+This feature is also mentioned in the release highlights for version 1.6, where it is stated that `datasets.fetch_file` allows downloading arbitrary data files from the web [3].",False,True,5,3,0,False,0.6666666666666666,"[1] auto_examples/release_highlights/plot_release_highlights_1_6_0.html :: Release Highlights for scikit-learn 1.6 > Download any dataset from the web
+[2] modules/generated/sklearn.datasets.fetch_file.html :: fetch_file
+[3] whats_new/v1.6.html :: Version 1.6 > Version 1.6.0 > sklearn.datasets
+[4] developers/develop.html :: Developing scikit-learn estimators > Developer API for HTML representation
+[5] developers/minimal_reproducer.html :: Crafting a minimal reproducer for scikit-learn > Good practices > Provide a failing code example with minimal comments",12.58,1110,189,2,2,2,
+P10,paraphrase,yes,closed_book,Does scikit-learn have a helper to download a data file from any URL with caching and an integrity check?,"Yes: sklearn.datasets.fetch_file (added in 1.6) downloads from a URL with local caching, an optional SHA256 check and automatic retries.","You can use `urlretrieve` from the `urllib.request` module, which is included in the Python standard library. It has a caching mechanism and can perform an integrity check.",False,True,0,0,0,False,,,1.68,98,38,0,,,urllib urlretrieve has no caching or integrity check.
+M1,multi_hop,yes,rag,What is the difference between FixedThresholdClassifier and TunedThresholdClassifierCV?,"FixedThresholdClassifier applies a decision threshold you choose; TunedThresholdClassifierCV searches for the threshold with cross-validation, maximising a metric (balanced accuracy by default). Both were added in 1.5.","The main difference between FixedThresholdClassifier and TunedThresholdClassifierCV is that FixedThresholdClassifier allows manually setting the decision threshold, whereas TunedThresholdClassifierCV finds the optimal decision threshold through cross-validation [2]. TunedThresholdClassifierCV performs a search during the fitting process to find the optimal threshold, whereas FixedThresholdClassifier does not perform any search and uses the manually set threshold [2]. 
+
+In terms of functionality, TunedThresholdClassifierCV returns the optimal score of the objective metric and the corresponding best threshold, whereas FixedThresholdClassifier does not perform any tuning and only uses the manually set threshold [3]. 
+
+Both classes can be used for cost-sensitive learning, but TunedThresholdClassifierCV is more suitable when the decision threshold needs to be optimized, whereas FixedThresholdClassifier is more suitable when the decision threshold is known or can be set manually [2].",False,True,5,2,0,False,0.5,"[1] whats_new/v1.5.html :: Version 1.5 > Version 1.5.0 > Changelog
+[2] auto_examples/model_selection/plot_cost_sensitive_learning.html :: Post-tuning the decision threshold for cost-sensitive learning > Cost-sensitive learning when gains and costs are not constant > Manually setting the decision threshold instead of tuning it
+[3] modules/generated/sklearn.model_selection.TunedThresholdClassifierCV.html :: TunedThresholdClassifierCV
+[4] modules/generated/sklearn.model_selection.FixedThresholdClassifier.html :: FixedThresholdClassifier
+[5] auto_examples/frozen/plot_frozen_examples.html :: Examples of Using FrozenEstimator > Setting a decision threshold for a pre-fitted classifier",13.37,1379,173,2,2,2,Does not mention the balanced-accuracy default.
+M1,multi_hop,yes,closed_book,What is the difference between FixedThresholdClassifier and TunedThresholdClassifierCV?,"FixedThresholdClassifier applies a decision threshold you choose; TunedThresholdClassifierCV searches for the threshold with cross-validation, maximising a metric (balanced accuracy by default). Both were added in 1.5.","The `FixedThresholdClassifier` and `TunedThresholdClassifierCV` are both used for threshold selection in binary classification problems. 
+
+The main difference between them is that `FixedThresholdClassifier` uses a fixed threshold value, whereas `TunedThresholdClassifierCV` uses cross-validation to find the optimal threshold value. 
+
+`TunedThresholdClassifierCV` is a wrapper around `FixedThresholdClassifier` that uses cross-validation to find the best threshold value. It is a more robust and reliable method for selecting the optimal threshold value.",False,True,0,0,0,False,,,4.54,90,106,2,,,Core difference right; 'wrapper around FixedThresholdClassifier' is unsupported.
+M2,multi_hop,yes,rag,"How much faster did DecisionTreeRegressor with criterion=""absolute_error"" become in 1.8, and why?","Its complexity dropped from O(n**2) to O(n log n); a single split on 100,000 samples takes about 100 ms instead of about 20 seconds.","DecisionTreeRegressor with criterion=""absolute_error"" now runs much faster in 1.8, with O(n * log(n)) complexity compared to O(n**2) previously [1]. This allows it to scale to millions of data points [1]. On a dataset with 100_000 samples and 1 feature, doing a single split takes of the order of 100 ms, compared to ~20 seconds before [1]. The improvement is due to a fix that makes it run much faster [2].",False,True,5,2,0,False,0.5,"[1] auto_examples/release_highlights/plot_release_highlights_1_8_0.html :: Release Highlights for scikit-learn 1.8 > DecisionTreeRegressor with criterion=""absolute_error""
+[2] whats_new/v1.8.html :: Version 1.8 > Version 1.8.0 > sklearn.tree
+[3] modules/generated/sklearn.tree.DecisionTreeRegressor.html :: DecisionTreeRegressor
+[4] auto_examples/release_highlights/plot_release_highlights_0_24_0.html :: Release Highlights for scikit-learn 0.24 > New Poisson splitting criterion for DecisionTreeRegressor
+[5] whats_new/v1.9.html :: Version 1.9 > Version 1.9.0 > sklearn.tree",10.96,1547,104,2,1,1,"'Due to a fix' misreads [2]: the fix entry is about sub-optimal splits, not speed."
+M2,multi_hop,yes,closed_book,"How much faster did DecisionTreeRegressor with criterion=""absolute_error"" become in 1.8, and why?","Its complexity dropped from O(n**2) to O(n log n); a single split on 100,000 samples takes about 100 ms instead of about 20 seconds.","DecisionTreeRegressor with criterion=""absolute_error"" became about 2-3 times faster in scikit-learn 1.8 due to the use of a more efficient algorithm for calculating the absolute error.",False,True,0,0,0,False,,,1.85,98,42,0,,,Says 2-3 times faster.
+N1,unanswerable,no,rag,What parameters does sklearn.ensemble.CatBoostRegressor accept?,Should abstain: scikit-learn has no CatBoostRegressor.,I could not find the answer to this question in the documentation.,True,True,5,0,0,False,,"[1] whats_new/v1.2.html :: Version 1.2 > Version 1.2.0 > Changelog > sklearn.ensemble
+[2] whats_new/v0.24.html :: Version 0.24 > Version 0.24.0 > Changelog > sklearn.ensemble
+[3] whats_new/v1.0.html :: Version 1.0 > Version 1.0.0 > Changelog > sklearn.ensemble
+[4] whats_new/v0.21.html :: Version 0.21 > Version 0.21.0 > Changelog > sklearn.ensemble
+[5] whats_new/v0.21.html :: Version 0.21 > Version 0.21.0 > Changelog > sklearn.ensemble",6.91,1451,14,,,,
+N1,unanswerable,no,closed_book,What parameters does sklearn.ensemble.CatBoostRegressor accept?,Should abstain: scikit-learn has no CatBoostRegressor.,"The CatBoostRegressor from sklearn.ensemble accepts the following parameters:
+
+* `learning_rate`: The step size of the gradient descent.
+* `n_estimators`: The number of trees in the forest.
+* `depth`: The maximum depth of each tree.
+* `loss_function`: The loss function to use.
+* `eval_metric`: The evaluation metric to use.
+* `verbose`: The verbosity level.
+* `silent`: Whether to print information messages or not.
+* `task_type`: The type of task (regression or classification).
+* `bootstrap`: Whether to use bootstrap sampling or not.
+* `subsample`: The subsample ratio.
+* `colsample_bylevel`: The subsample ratio for each level.
+* `colsample_bynode`: The subsample ratio for each node.
+* `regressor`: The regressor to use.
+* `random_state`: The random seed.
+* `od_type`: The overfitting detection type.
+* `od_wait`: The overfitting detection wait.
+* `task_type`: The type of task.
+* `objective_shrink_factor`: The objective shrink factor.
+* `debug`: Whether to enable debug mode or not.
+* `enable_stack_level_100`: Whether to enable stack level 100 or not.
+* `boost_from_average`: Whether to boost from average or not.
+* `allow_writing_files`: Whether to allow writing files or not.
+* `od_pval`: The overfitting detection p-value.
+* `od_type`: The overfitting detection type.
+* `od_wait`: The overfitting detection wait.
+* `task_type`: The type of task.
+* `verbose`: The verbosity level.
+* `n_estimators`: The number of trees in the forest.
+* `learning_rate`: The step size of the gradient descent.
+* `loss_function`: The loss function to use.
+* `eval_metric`: The evaluation metric to use.
+* `silent`: Whether to print information messages or not.
+* `bootstrap`: Whether to use bootstrap sampling or not.
+* `subsample`: The subsample ratio.
+* `colsample_bylevel`: The subsample ratio for each level.
+* `colsample_bynode`: The subsample ratio for each node.
+* `regressor`: The regressor to use.
+* `random_state`: The random seed.
+
+Note that not all of these parameters are required and some of them have default values.",False,False,0,0,0,False,,,20.78,87,496,,,,
+N2,unanswerable,no,rag,How do I fine-tune a BERT model with scikit-learn?,Should abstain: the documentation does not cover fine-tuning transformer models.,I could not find the answer to this question in the documentation.,True,True,5,0,0,False,,"[1] auto_examples/model_selection/plot_cost_sensitive_learning.html :: Post-tuning the decision threshold for cost-sensitive learning > Cost-sensitive learning with constant gains and costs > Evaluation metrics
+[2] computing/computational_performance.html :: 10.2. Computational Performance > 10.2.3. Tips and Tricks > 10.2.3.3. Model Compression
+[3] faq.html :: Frequently Asked Questions > Contributing > How can I contribute to scikit-learn?
+[4] auto_examples/model_selection/plot_grid_search_digits.html :: Custom refit strategy of a grid search with cross-validation > Tuning hyper-parameters
+[5] auto_examples/linear_model/plot_ridge_coeffs.html :: Ridge coefficients as a function of the L2 Regularization",6.42,1376,14,,,,
+N2,unanswerable,no,closed_book,How do I fine-tune a BERT model with scikit-learn?,Should abstain: the documentation does not cover fine-tuning transformer models.,I could not find the answer to this question in the documentation.,True,True,0,0,0,False,,,0.83,91,14,,,,
+F1,false_premise,no,rag,What does the momentum parameter of Ridge regression control?,Should abstain or correct the premise: Ridge has no momentum parameter (momentum belongs to MLPClassifier / MLPRegressor). Inventing an answer is wrong.,I could not find the answer to this question in the documentation.,True,True,5,0,0,False,,"[1] modules/linear_model.html :: 1.1. Linear Models > 1.1.2. Ridge regression and classification > 1.1.2.1. Regression
+[2] auto_examples/linear_model/plot_poisson_regression_non_normal_loss.html :: Poisson regression and non-normal loss > Evaluation of the calibration of predictions
+[3] auto_examples/linear_model/plot_ridge_path.html :: Plot Ridge coefficients as a function of the regularization
+[4] modules/linear_model.html :: 1.1. Linear Models > 1.1.10. Bayesian Regression > 1.1.10.1. Bayesian Ridge Regression
+[5] modules/linear_model.html :: 1.1. Linear Models > 1.1.5. Elastic-Net",5.85,1297,14,,,,
+F1,false_premise,no,closed_book,What does the momentum parameter of Ridge regression control?,Should abstain or correct the premise: Ridge has no momentum parameter (momentum belongs to MLPClassifier / MLPRegressor). Inventing an answer is wrong.,"The momentum parameter of Ridge regression is not a standard parameter in Ridge regression. However, it is related to the L-BFGS (Limited-memory Broyden-Fletcher-Goldfarb-Shanno) optimization algorithm used in some scikit-learn implementations of Ridge regression. The momentum parameter controls the step size of the gradient descent update, but it is not a parameter that is typically adjusted for Ridge regression.",False,False,0,0,0,False,,,3.6,85,83,,,,
+F2,false_premise,no,rag,How do I use the Nadam optimizer with MLPClassifier?,"Should abstain or correct the premise: MLPClassifier only supports the solvers 'lbfgs', 'sgd' and 'adam'.",I could not find the answer to this question in the documentation.,True,True,5,0,0,False,,"[1] modules/generated/sklearn.neural_network.MLPRegressor.html :: MLPRegressor
+[2] modules/generated/sklearn.neural_network.MLPClassifier.html :: MLPClassifier
+[3] modules/neural_networks_supervised.html :: 1.17. Neural network models (supervised) > 1.17.2. Classification
+[4] modules/generated/sklearn.gaussian_process.GaussianProcessClassifier.html :: GaussianProcessClassifier
+[5] auto_examples/neural_networks/plot_mlp_training_curves.html :: Compare Stochastic learning strategies for MLPClassifier",7.65,1682,14,,,,
+F2,false_premise,no,closed_book,How do I use the Nadam optimizer with MLPClassifier?,"Should abstain or correct the premise: MLPClassifier only supports the solvers 'lbfgs', 'sgd' and 'adam'.","You can use the Nadam optimizer with `MLPClassifier` by passing it to the `solver` parameter. However, `MLPClassifier` does not directly support Nadam. You can use the `SGDClassifier` with the `nadam` solver instead:
+
+```python
+from sklearn.linear_model import SGDClassifier
+from sklearn.neural_network import MLPClassifier
+
+# Using SGDClassifier with nadam solver
+sgd = SGDClassifier(loss='log', solver='nadam', learning_rate='adaptive', eta0=0.1, max_iter=1000)
+sgd.fit(X_train, y_train)
+
+# Using MLPClassifier with a workaround
+mlp = MLPClassifier(hidden_layer_sizes=(100,), solver='sgd', learning_rate_init=0.1, max_iter=1000)
+mlp.fit(X_train, y_train)
+```
+
+Note that the `MLPClassifier` uses a different solver than `SGDClassifier`, so you need to use a workaround to use Nadam with `MLPClassifier`.",False,False,0,0,0,False,,,8.9,87,210,,,,
+F3,false_premise,no,rag,Why was KMeans removed in scikit-learn 1.9?,Should abstain or correct the premise: KMeans was not removed and is documented in 1.9.,I could not find the answer to this question in the documentation.,True,True,5,0,0,False,,"[1] whats_new/v0.20.html :: Version 0.20
+[2] whats_new/v1.3.html :: Version 1.3 > Version 1.3.0 > Changelog > sklearn.cluster
+[3] whats_new/v0.21.html :: Version 0.21 > Version 0.21.3 > Changelog > sklearn.cluster
+[4] whats_new/v0.17.html :: Version 0.17 > Version 0.17 > API changes summary
+[5] whats_new/v1.0.html :: Version 1.0 > Version 1.0.0 > Changelog > sklearn.cluster",6.32,1252,14,,,,
+F3,false_premise,no,closed_book,Why was KMeans removed in scikit-learn 1.9?,Should abstain or correct the premise: KMeans was not removed and is documented in 1.9.,I could not find the answer to this question in the documentation.,True,True,0,0,0,False,,,0.87,90,14,,,,

@@ -1,0 +1,16 @@
+method,category,questions,hit@5,recall@5,mrr,ndcg@5
+bm25,all,27,0.778,0.608,0.651,0.542
+dense,all,27,0.889,0.713,0.773,0.65
+hybrid,all,27,0.889,0.719,0.725,0.644
+bm25,version_specific,8,0.875,0.688,0.705,0.583
+dense,version_specific,8,0.75,0.625,0.766,0.6
+hybrid,version_specific,8,0.875,0.75,0.75,0.671
+bm25,api_detail,7,1.0,1.0,0.762,0.806
+dense,api_detail,7,1.0,1.0,0.714,0.778
+hybrid,api_detail,7,1.0,1.0,0.75,0.813
+bm25,paraphrase,10,0.6,0.292,0.56,0.333
+dense,paraphrase,10,0.9,0.558,0.825,0.577
+hybrid,paraphrase,10,0.8,0.475,0.7,0.49
+bm25,multi_hop,2,0.5,0.5,0.5,0.5
+dense,multi_hop,2,1.0,0.833,0.75,0.765
+hybrid,multi_hop,2,1.0,0.833,0.667,0.718

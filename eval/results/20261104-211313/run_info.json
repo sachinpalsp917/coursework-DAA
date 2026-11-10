@@ -1,0 +1,23 @@
+{
+  "site": "sklearn",
+  "questions_file": "/Users/sachinpal/Downloads/University/Data Mining and Analytics/coursework/project/eval/questions.csv",
+  "k": 5,
+  "rrf_k": 60,
+  "candidate_k": 50,
+  "index": {
+    "site_id": "sklearn",
+    "model": "BAAI/bge-small-en-v1.5",
+    "dimension": 384,
+    "chunks": 10489,
+    "pages": 1059,
+    "built_at": "2026-11-04T17:31:40+00:00"
+  },
+  "llm": "llama3.1:8b",
+  "temperature": 0.0,
+  "rag_method": "hybrid",
+  "rubric": {
+    "correctness": "2 = matches expected_answer, 1 = partly right or incomplete, 0 = wrong or missing",
+    "faithfulness": "2 = every claim is supported by the shown sources, 1 = minor unsupported detail, 0 = important claim not in the sources (closed book: leave blank)",
+    "citation_accuracy": "2 = every citation points to a source that says it, 1 = some misattributed, 0 = mostly wrong or no citations (closed book: leave blank)"
+  }
+}

@@ -1,0 +1,6 @@
+[server]
+address = "localhost"   # only this computer can open the app
+headless = true         # don't open a browser tab automatically
+
+[browser]
+gatherUsageStats = false
